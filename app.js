@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
 const Post = require("./models/Post");
+const methodOverride = require('method-override');
+const postController = require("./controllers/postController");
+const pageController = require("./controllers/pageController");
 
 const app = express();
 
@@ -11,32 +14,22 @@ mongoose.connect("mongodb://127.0.0.1:27017/cleanblog-post-db");
 app.use(express.static("public"));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(
+    methodOverride('_method', {
+      methods: ['POST', 'GET'],
+    })
+  );
 
 app.set("view engine", "ejs");
 
-app.get("/", async (req,res) => {
-    const posts = await Post.find({});
-    res.render("index", {
-        posts
-    });
-})
-app.get("/posts/:id", async (req,res) => {
-    const post = await Post.findById(req.params.id);
-    res.render("post", {
-        post
-    })
-})
-app.get("/about", (req,res) => {
-    res.render("about");
-})
-app.get("/add-post", (req,res) => {
-    res.render("add_post");
-})
-
-app.post("/posts", async (req,res) => {
-    await Post.create(req.body);
-    res.redirect("/");
-})
+app.get("/", postController.getPostsAll);
+app.get("/posts/:id", postController.getPost);
+app.get("/about", pageController.getAboutPage);
+app.get("/add-post", pageController.getAddPage);
+app.get("/posts/edit/:id", pageController.getEditPage);
+app.post("/posts", postController.createPost);
+app.put("/posts/:id", postController.editPost);
+app.delete("/posts/:id", postController.deletePost);
 
 const port = 3000;
 

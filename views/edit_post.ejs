@@ -5,13 +5,13 @@
   <%- include("partials/_navigation") -%>
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('img/contact-bg.jpg')">
+  <header class="masthead" style="background-image: url('/img/contact-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
-            <h1>Add New Post</h1>
+            <h1>Edit Post</h1>
 
           </div>
         </div>
@@ -23,25 +23,27 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form action="/posts" method="POST">
+        <form method="POST" action="/posts/<%= post._id %>?_method=PUT">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Title</label>
-              <input type="text" class="form-control" placeholder="Title" name="title" id="title" required data-validation-required-message="Please enter your name.">
+              <input type="text" class="form-control" value="<%= post.title %>" placeholder="<%= post.title %>" name="title" id="title" required data-validation-required-message="Please enter your name.">
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Detail</label>
-              <textarea rows="5" class="form-control" placeholder="Post Detail" name="detail" id="detail" required data-validation-required-message="Please enter a message."></textarea>
+              <textarea rows="5" class="form-control" placeholder="Post Detail" name="detail" id="detail" required data-validation-required-message="Please enter a message."><%= post.detail %></textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Description</label>
-              <textarea rows="5" class="form-control" placeholder="Post Description" name="description" id="description" required data-validation-required-message="Please enter a description."></textarea>
+              <textarea rows="5" class="form-control" placeholder="Post Description" name="description" id="description" required data-validation-required-message="Please enter a description.">
+                <%= post.description %>
+              </textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>

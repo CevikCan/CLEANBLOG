@@ -9,7 +9,7 @@ const pageController = require("./controllers/pageController");
 const app = express();
 
 mongoose.set("strictQuery", false);
-mongoose.connect("mongodb://127.0.0.1:27017/cleanblog-post-db");
+mongoose.connect("mongodb+srv://can1:T0JFWMlHch02eJbW@cluster0.elt9wsi.mongodb.net/?retryWrites=true&w=majority");
 
 app.use(express.static("public"));
 app.use(express.urlencoded({extended: true}));
@@ -31,9 +31,9 @@ app.post("/posts", postController.createPost);
 app.put("/posts/:id", postController.editPost);
 app.delete("/posts/:id", postController.deletePost);
 
-const port = 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port,()=>{
-    console.log("Sunucu 3000 portunda çalıştırıldı");
+    console.log("Uygulama çalıştırıldı");
 })
 
